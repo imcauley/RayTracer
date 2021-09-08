@@ -9,24 +9,27 @@ class Sphere(Object):
         self.radius = radius
 
     def intersect(self, ray):
+        oc = ray.origin - self.position
+
         a = np.dot(ray.direction, ray.direction)
-        b = 2 * np.dot(ray.direction, ray.origin - self.position)
-        c = (self.radius ** 2) * np.dot(ray.origin - self.position, ray.origin - self.position)
+        b = 2 * np.dot(oc, ray.direction)
+        c = np.dot(oc, oc) - (self.radius ** 2)
 
         d = (b ** 2) - (4 * a * c)
 
         if d < 0:
             return None
 
-        t_plus = (b + math.sqrt(d)) / (2 * a)
-        t_min = (b - math.sqrt(d)) / (2 * a)
+        n = -b - math.sqrt(d)
+        if n > 0:
+            t = n / (2*a)
+            p = ray.origin + (t * ray.direction)
+            return Point(p)
 
-        if t_plus < t_min and t_plus > 0:
-            t = t_plus
-        elif t_min > 0:
-            t = t_min
-        else:
-            return None
+        n = -b + math.sqrt(d)
+        if n  > 0:
+            t = (-b - math.sqrt(d)) / (2 * a)
+            p = ray.origin + (t * ray.direction)
+            return Point(p)
 
-        p = ray.origin + (t * ray.direction)
-        return Point(p)
+        return None
