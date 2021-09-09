@@ -23,13 +23,14 @@ class Sphere(Object):
         n = -b - math.sqrt(d)
         if n > 0:
             t = n / (2*a)
-            p = ray.origin + (t * ray.direction)
-            return Point(p)
+            return self.create_intersect_point(ray, t)
 
         n = -b + math.sqrt(d)
         if n  > 0:
-            t = (-b - math.sqrt(d)) / (2 * a)
-            p = ray.origin + (t * ray.direction)
-            return Point(p)
+            t = n / (2 * a)
+            return self.create_intersect_point(ray, t)
 
         return None
+
+    def normal_at_point(self, point: Point) -> Point:
+        return Point(point.vector - self.position)
