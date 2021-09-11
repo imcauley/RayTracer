@@ -29,4 +29,4 @@ class Object(ABC):
         point = ray.origin + (distance * ray.direction)
         reflection = self.reflection(ray, point)
 
-        return IntersectPoint(point, reflection, distance)
+        return IntersectPoint(point, reflection, distance, self)
