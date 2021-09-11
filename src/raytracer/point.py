@@ -5,7 +5,7 @@ class Point:
 		self.vector = vector
 		
 	def copy(self):
-		return np.array(self.vector)
+		return Point(np.array(self.vector))
 		
 	def translate(self, point):
 		self.vector = self.vector - point.vector

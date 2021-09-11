@@ -7,7 +7,7 @@ class Ray:
         self.time_to_live = time_to_live
 
     def vector(self):
-        return self.direction - self.origin
+        return np.subtract(self.direction, self.origin.vector)
 
     def colour_from_ray(self, objects, lights):
         intersecting_point = self.intercepting_point(objects)
@@ -17,7 +17,7 @@ class Ray:
         
         brightness = 0
         for light in lights:
-            brightness += np.dot(light.origin, intersecting_point.reflection.vector())
+            brightness += np.dot(light.position.vector, intersecting_point.reflection.vector())
 
         return intersecting_point.intersecting_object.colour * brightness
 
