@@ -1,5 +1,5 @@
-from object import Object
-from point import Point
+from . import Object
+from . import Point
 import numpy as np
 import math
 

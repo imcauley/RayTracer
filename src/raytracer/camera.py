@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from point import Point
+from raytracer import Point
 
 @dataclass
 class Camera:
@@ -35,11 +35,10 @@ class Camera:
                 
         self.rays = rays
 
-    def capture_rays(self, objects, lights):
-        self.ray_color
-        for ray in self.rays:
-            self.intercepted_points.append(ray.intercepting_point())
+    def create_image(self, objects, lights):
+        brightnesses = []
+        for (index, ray) in enumerate(self.rays):
+            b = ray.colour_from_ray(objects, lights)
+            brightnesses.append(b)
 
-
-    def create_image(self, image_creator):
-        return image_creator.image_from_points(self.intercepted_points)
+        return brightnesses

@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from intersect_point import IntersectPoint
-from point import Point
-from ray import Ray
 import numpy as np
+
+from raytracer import Point, Ray, IntersectPoint
 
 class Object(ABC):
     def __init__(self, position):
