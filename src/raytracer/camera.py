@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import numpy as np
 from raytracer import Point, Ray
 
 @dataclass
@@ -37,9 +38,16 @@ class Camera:
         self.rays = rays
 
     def create_image(self, objects, lights):
-        brightnesses = []
+        row = 0
+        col = 0
+        brightnesses = np.zeros([self.width, self.height, 3], 'f')
         for ray in self.rays:
             b = ray.colour_from_ray(objects, lights)
-            brightnesses.append(b)
+            brightnesses[row, col] = b
+            
+            row += 1
+            if row >= self.width:
+                row = 0
+                col += 0
 
         return brightnesses
