@@ -13,7 +13,7 @@ class Ray:
         intersecting_point = self.intercepting_point(objects)
 
         if intersecting_point is None:
-            return None
+            return np.array([0,0,0], 'f')
         
         brightness = 0
         for light in lights:

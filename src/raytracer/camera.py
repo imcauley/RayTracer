@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import numpy as np
 from raytracer import Point, Ray
+from PIL import Image
 
 @dataclass
 class Camera:
@@ -50,4 +51,6 @@ class Camera:
                 row = 0
                 col += 0
 
-        return brightnesses
+        img = Image.fromarray(brightnesses)
+        img.show()
+        # return brightnesses
