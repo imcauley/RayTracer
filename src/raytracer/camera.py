@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from os import stat
 import numpy as np
 from raytracer import Point, Ray
 from PIL import Image
@@ -44,12 +45,15 @@ class Camera:
         brightnesses = np.zeros([self.width, self.height, 3], 'f')
         for ray in self.rays:
             b = ray.colour_from_ray(objects, lights)
-            brightnesses[row, col] = b
+            brightnesses[row, col] = Camera.brightness_to_rgb(b)
             
             row += 1
             if row >= self.width:
                 row = 0
                 col += 0
+
+        brightnesses = brightnesses * 255
+        brightnesses = brightnesses.astype(np.uint8)
 
         img = Image.fromarray(brightnesses)
         img.show()
