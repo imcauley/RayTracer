@@ -6,6 +6,9 @@ class Ray:
         self.direction = direction
         self.time_to_live = time_to_live
 
+    def __str__(self) -> str:
+        return str(self.origin.vector) + ' -> ' + str(self.direction.vector)
+
     def vector(self):
         return np.subtract(self.direction, self.origin.vector)
 
