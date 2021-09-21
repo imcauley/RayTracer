@@ -1,7 +1,8 @@
 import numpy as np
+from raytracer import Point
 
 class Ray:
-    def __init__(self, origin, direction, time_to_live=5):
+    def __init__(self, origin: Point, direction: Point, time_to_live=5):
         self.origin = origin
         self.direction = direction
         self.time_to_live = time_to_live
@@ -10,13 +11,21 @@ class Ray:
         return str(self.origin.vector) + ' -> ' + str(self.direction.vector)
 
     def vector(self):
-        return np.subtract(self.direction, self.origin.vector)
+        return np.subtract(self.direction.vector, self.origin.vector)
+
+    def normalize(self):
+        norm_direction = self.vector()
+        norm_direction = norm_direction / np.linalg.norm(norm_direction)
+        norm_direction = norm_direction + self.origin.vector
+        self.direction = Point(norm_direction)
 
     def colour_from_ray(self, objects, lights):
         intersecting_point = self.intercepting_point(objects)
 
         if intersecting_point is None:
             return np.array([0,0,0], 'f')
+        else:
+            return np.array([1,0,0], 'f')
         
         brightness = 0
         for light in lights:

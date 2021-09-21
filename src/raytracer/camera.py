@@ -35,6 +35,7 @@ class Camera:
                 current.x_rotation(j * width_step)
                 current.translate(offset)
                 r = Ray(self.position, current)
+                r.normalize()
                 rays.append(r)
                 
                 
