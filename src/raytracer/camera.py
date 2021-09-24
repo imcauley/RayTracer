@@ -3,6 +3,7 @@ from os import stat
 import numpy as np
 from raytracer import Point, Ray
 from PIL import Image
+import math
 
 @dataclass
 class Camera:
@@ -12,34 +13,36 @@ class Camera:
     position: Point
     direction: Point
 
-    height_fov: float = 1.5707963268
-    width_fov: float = 1.5707963268
+    height_fov: float = math.pi * 90 / 180
+    width_fov: float = 80
 
     def create_rays(self):
         width_step = self.width_fov / self.width
         height_step = self.height_fov / self.height
+
+        aspect_ratio = self.width / self.height
         
         start = self.direction.copy()
         start.translate(self.position)
-        start.z_rotation(-self.height_fov / 2)
-        start.x_rotation(-self.width_fov / 2)
-
+        start.y_rotation(self.height_fov / -2)
+        start.z_rotation(self.width_fov / -2)
         offset = Point(start.vector * -1.0)
         
         rays = []
         
         for i in range(0, self.height):            
             for j in range(0, self.width):
-                current = start.copy()
-                current.z_rotation(i * height_step)
-                current.x_rotation(j * width_step)
-                current.translate(offset)
-                r = Ray(self.position, current)
+                Px = (2 * ((j + 0.5) / self.width) - 1) * np.tan(self.width_fov / 2 * math.pi / 180) * aspect_ratio
+                Py = (1 - 2 * ((i + 0.5) / self.height) * np.tan(self.width_fov / 2 * math.pi / 180))
+                
+                direction = Point(np.array([Px, 1, Py]))
+                r = Ray(self.position, direction)
                 r.normalize()
                 rays.append(r)
                 
-                
         self.rays = rays
+        print(self.rays[0])
+        print(self.rays[-1])
 
     def create_image(self, objects, lights):
         row = 0
