@@ -21,12 +21,9 @@ class Ray:
 
     def colour_from_ray(self, objects, lights):
         intersecting_point = self.intercepting_point(objects)
-
         if intersecting_point is None:
             return np.array([0,0,0], 'f')
-        else:
-            return np.array([1,0,0], 'f')
-        
+
         brightness = 0
         for light in lights:
             brightness += np.dot(light.position.vector, intersecting_point.reflection.vector())
