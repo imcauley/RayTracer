@@ -22,7 +22,7 @@ class Object(ABC):
         r = d - (2 * (np.dot(d, n)) * n)
         r = r + intercept_point.vector
 
-        return Ray(intercept_point, r, ray.time_to_live - 1)
+        return Ray(intercept_point, Point(r), ray.time_to_live - 1)
 
     def create_intersect_point(self, ray, distance) -> IntersectPoint:
         point = Point(np.add(ray.origin.vector, (distance * ray.direction.vector)))
