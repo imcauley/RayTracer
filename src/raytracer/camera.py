@@ -39,17 +39,16 @@ class Camera:
         brightnesses = np.zeros([self.width, self.height, 3], 'f')
         for ray in self.rays:
             b = ray.colour_from_ray(objects, lights)
-            brightnesses[row, col] = b
-            
+            brightnesses[row][col] = b
             row += 1
             if row >= self.width:
                 row = 0
-                col += 0
+                col += 1
 
-
+        
         brightnesses = brightnesses * 255
-        brightnesses = brightnesses.astype(np.uint8)
+        brightnesses = np.uint8(brightnesses)
 
-        img = Image.fromarray(brightnesses)
+        img = Image.fromarray(brightnesses, 'RGB')
         img.show()
         # return brightnesses
