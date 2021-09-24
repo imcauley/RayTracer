@@ -17,16 +17,7 @@ class Camera:
     width_fov: float = 80
 
     def create_rays(self):
-        width_step = self.width_fov / self.width
-        height_step = self.height_fov / self.height
-
         aspect_ratio = self.width / self.height
-        
-        start = self.direction.copy()
-        start.translate(self.position)
-        start.y_rotation(self.height_fov / -2)
-        start.z_rotation(self.width_fov / -2)
-        offset = Point(start.vector * -1.0)
         
         rays = []
         
@@ -41,8 +32,6 @@ class Camera:
                 rays.append(r)
                 
         self.rays = rays
-        print(self.rays[0])
-        print(self.rays[-1])
 
     def create_image(self, objects, lights):
         row = 0
