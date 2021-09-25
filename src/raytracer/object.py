@@ -27,5 +27,6 @@ class Object(ABC):
     def create_intersect_point(self, ray, distance) -> IntersectPoint:
         point = Point(np.add(ray.origin.vector, (distance * ray.direction.vector)))
         reflection = self.reflection(ray, point)
+        normal = self.normal_at_point(point)
 
-        return IntersectPoint(point, reflection, distance, self)
+        return IntersectPoint(point, reflection, normal, distance, self)
