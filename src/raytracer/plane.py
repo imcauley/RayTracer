@@ -7,3 +7,6 @@ class Plane(Object):
     def __init__(self, position, colour, normal):
         super().__init__(position, colour)
         self.normal = normal
+
+    def normal_at_point(self, point: Point) -> Point:
+        return self.normal
