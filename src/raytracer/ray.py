@@ -26,7 +26,7 @@ class Ray:
 
         brightness = 0
         for light in lights:
-            similarity =  np.dot(light.position.vector, intersecting_point.reflection.vector())
+            similarity =  np.dot(light.position.unit_vector(), intersecting_point.reflection.vector())
             brightness += abs(similarity)
 
         return intersecting_point.intersecting_object.colour * brightness

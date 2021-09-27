@@ -33,5 +33,4 @@ class Sphere(Object):
         return None
 
     def normal_at_point(self, point: Point) -> Point:
-        
         return Point(np.subtract(point.vector, self.position))
