@@ -13,6 +13,10 @@ class Ray:
     def vector(self):
         return np.subtract(self.direction.vector, self.origin.vector)
 
+    def unit_vector(self):
+        v = np.subtract(self.direction.vector, self.origin.vector)
+        return v / np.linalg.norm(v)
+
     def normalize(self):
         norm_direction = self.vector()
         norm_direction = norm_direction / np.linalg.norm(norm_direction)
@@ -26,7 +30,9 @@ class Ray:
 
         brightness = 0
         for light in lights:
-            similarity =  np.dot(light.position.unit_vector(), intersecting_point.reflection.vector())
+            similarity =  np.dot(light.position.unit_vector(), intersecting_point.reflection.unit_vector())
+            # if(similarity < 0.01):
+                # print(f"{intersecting_point.}")
             brightness += abs(similarity)
 
         return intersecting_point.intersecting_object.colour * brightness

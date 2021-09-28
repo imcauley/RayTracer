@@ -18,7 +18,7 @@ class Object(ABC):
 
     def reflection(self, ray: Ray, intercept_point: Point) -> Ray:
         d = np.subtract(ray.direction.vector, ray.origin.vector)
-        n = self.normal_at_point(intercept_point).vector
+        n = self.normal_at_point(intercept_point).unit_vector()
         r = d - (2 * (np.dot(d, n)) * n)
         r = r + intercept_point.vector
 
