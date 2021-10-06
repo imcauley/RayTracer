@@ -30,12 +30,32 @@ class Ray:
 
         brightness = 0
         for light in lights:
-            similarity =  np.dot(light.position.unit_vector(), intersecting_point.reflection.unit_vector())
-            # if(similarity < 0.01):
-                # print(f"{intersecting_point.}")
+            if self.in_shadow(intersecting_point, light, objects):
+                continue
+            
+            relative_light = np.subtract(light.position.vector, intersecting_point.point.vector)
+            relative_light = relative_light / np.linalg.norm(relative_light)
+            similarity =  np.dot(relative_light, intersecting_point.reflection.unit_vector())
             brightness += abs(similarity)
 
+        if(brightness > 1):
+            brightness = 1
+
         return intersecting_point.intersecting_object.colour * brightness
+
+    def in_shadow(self, intersect_point, light, objects):
+        BIAS = 0.1
+        
+        biased_point = intersect_point.point.vector + intersect_point.normal.vector * BIAS
+        light_ray = Ray(Point(biased_point), light.position)
+        return light_ray.has_intercept(objects)
+
+    def has_intercept(self, objects) -> bool:
+        for obj in objects:
+            if obj.intersect(self):
+                return True
+
+        return False
 
     def intercepting_point(self, objects):
         intersect_point = None
